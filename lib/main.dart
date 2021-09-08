@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual_flutter/models/user_model.dart';
 import 'package:loja_virtual_flutter/screens/home_screen.dart';
-import 'package:loja_virtual_flutter/screens/login_screen.dart';
-import 'package:loja_virtual_flutter/screens/signup_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 void main() {

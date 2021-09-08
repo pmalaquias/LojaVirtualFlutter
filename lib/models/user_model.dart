@@ -1,13 +1,24 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class UserModel extends Model{
+class UserModel extends Model {
   //usuario atual
+
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
+  FirebaseAuth firebaseAuth;
+  Map<String, dynamic> userData = Map();
 
   bool isLoading = false;
 
-  void singUp(){}
+  void singUp(Map<String, dynamic> userData, String pass,
+      VoidCallback onSuccess, VoidCallback onFail) {
+    isLoading = true;
+    notifyListeners();
+  }
 
-  void singIn() async{
+  void singIn() async {
     isLoading = true;
     notifyListeners();
 
@@ -17,5 +28,5 @@ class UserModel extends Model{
     notifyListeners();
   }
 
-  void recoverPass(){}
+  void recoverPass() {}
 }

@@ -20,7 +20,7 @@ class SignupScreen extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: 'Nome',
               ),
-              keyboardType: TextInputType.emailAddress,
+              keyboardType: TextInputType.name,
               // ignore: missing_return
               validator: (text) {
                 if (text.isEmpty)
