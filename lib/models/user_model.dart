@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -9,13 +10,35 @@ class UserModel extends Model {
 
   FirebaseAuth firebaseAuth;
   Map<String, dynamic> userData = Map();
+  FirebaseUser firebaseUser;
 
   bool isLoading = false;
 
-  void singUp(Map<String, dynamic> userData, String pass,
-      VoidCallback onSuccess, VoidCallback onFail) {
+  void singUp({
+    @required Map<String, dynamic> userData,
+    @required String password,
+    @required VoidCallback onSuccess,
+    @required VoidCallback onFail,
+  }) {
     isLoading = true;
     notifyListeners();
+
+    _auth.createUserWithEmailAndPassword(
+      email: userData['email'],
+      password: password,
+    ).then((user) async {
+      firebaseUser = user;
+
+      await _saveUserData(userData);
+
+      onSuccess();
+      isLoading = false;
+      notifyListeners();
+      }).catchError((error) {
+      onFail();
+      isLoading = false;
+      notifyListeners();
+    });
   }
 
   void singIn() async {
@@ -29,4 +52,11 @@ class UserModel extends Model {
   }
 
   void recoverPass() {}
+
+  Future<void> _saveUserData(Map<String, dynamic> userData) async {
+    this.userData = userData;
+    await Firestore.instance.
+        collection('user').
+        document(firebaseUser.uid).setData(userData);
+  }
 }
